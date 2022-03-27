@@ -3,16 +3,15 @@ package main
 import (
 	"errors"
 	"fmt"
-	"os"
+	"testing"
 )
 
-func main() {
+func Test_inplace_k_shift(t *testing.T) {
 	data := []int{1, 2, 3, 5, 6, 7, 8, 10}
 	// 7, 8, 10, 1, 2, 3, 5, 6
 	data, err := shift(data, -1)
 	if err != nil {
-		fmt.Printf("%v\n", err)
-		os.Exit(1)
+		t.Error(err)
 	}
 	fmt.Printf("%v\n", data)
 }

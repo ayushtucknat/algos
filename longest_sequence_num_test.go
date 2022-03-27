@@ -1,8 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func main() {
+func Test_longest_subsequence(t *testing.T) {
 	fmt.Printf("%v\n", longest_subsequence_length([]int{2, 100, 200, 3, 4, 1}))                                        //4
 	fmt.Printf("%v\n", longest_subsequence_length([]int{0, 2, 100, 200, 3, 4, 1}))                                     //5
 	fmt.Printf("%v\n", longest_subsequence_length([]int{2, -1, 100, 200, 3, 4, 1}))                                    //4
