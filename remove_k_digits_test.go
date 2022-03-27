@@ -18,6 +18,7 @@ var testData = []data{
 	{num: "1999", k: 2, ans: "19"},
 	{num: "9111", k: 2, ans: "11"},
 	{num: "10991", k: 3, ans: "1"},
+	{num: "109", k: 3, ans: "0"},
 }
 
 func Test_RemoveKDigits(t *testing.T) {
