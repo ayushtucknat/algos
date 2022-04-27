@@ -30,18 +30,31 @@ func Test_groupAnagram(t *testing.T) {
 
 	for _, example := range data {
 		actual := groupAnagram(example.sample)
-		for i := range actual {
-
-			for j := range actual[i] {
-				if !contains(actual[i], example.expected[i][j]) {
-					t.Fail()
-				}
+		for _, result := range example.expected {
+			if !contains(actual, result) {
+				t.Fail()
 			}
-
 		}
 
 	}
 
+}
+
+func contains(actual [][]string, result []string) bool {
+	for _, data := range actual {
+		matched := true
+		for _, elem := range data {
+			if !containsInArray(result, elem) {
+				matched = false
+				break;
+		
+			}
+		}
+		if matched {
+			return matched
+		}
+	}
+	return false
 }
 
 func groupAnagram(strs []string) [][]string {
@@ -77,7 +90,7 @@ func groupAnagram(strs []string) [][]string {
 	return results
 }
 
-func contains(array []string, data string) bool {
+func containsInArray(array []string, data string) bool {
 	for _, element := range array {
 		if element == data {
 			return true
