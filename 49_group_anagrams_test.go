@@ -1,6 +1,7 @@
 package main_test
 
 import (
+	"sort"
 	"strings"
 	"testing"
 )
@@ -29,7 +30,8 @@ func Test_groupAnagram(t *testing.T) {
 	}
 
 	for _, example := range data {
-		actual := groupAnagram(example.sample)
+		actual := groupAnagramLinear(example.sample)
+		// FixMe: asserstion are not correct
 		for _, result := range example.expected {
 			if !contains(actual, result) {
 				t.Fail()
@@ -46,8 +48,8 @@ func contains(actual [][]string, result []string) bool {
 		for _, elem := range data {
 			if !containsInArray(result, elem) {
 				matched = false
-				break;
-		
+				break
+
 			}
 		}
 		if matched {
@@ -88,6 +90,32 @@ func groupAnagram(strs []string) [][]string {
 	}
 
 	return results
+}
+
+func groupAnagramLinear(str []string) [][]string {
+	scrollIndex := make(map[string]int)
+	anagrams := make([][]string, 0)
+	len := 0
+	for _, word := range str {
+		sorted := sortWord(word)
+		if index, ok := scrollIndex[sorted]; ok {
+			anagrams[index] = append(anagrams[index], word)
+		} else {
+			scrollIndex[sorted] = len
+			anagrams = append(anagrams, []string{word})
+			len++
+		}
+
+	}
+	return anagrams
+}
+
+func sortWord(word string) string {
+	chars := []rune(word)
+	sort.Slice(chars, func(i, j int) bool {
+		return chars[i] < chars[j]
+	})
+	return string(chars)
 }
 
 func containsInArray(array []string, data string) bool {
