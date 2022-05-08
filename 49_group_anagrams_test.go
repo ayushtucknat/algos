@@ -1,6 +1,7 @@
 package main_test
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 	"testing"
@@ -30,7 +31,7 @@ func Test_groupAnagram(t *testing.T) {
 	}
 
 	for _, example := range data {
-		actual := groupAnagramLinear(example.sample)
+		actual := groupAnagramFastest(example.sample)
 		// FixMe: asserstion are not correct
 		for _, result := range example.expected {
 			if !contains(actual, result) {
@@ -92,11 +93,11 @@ func groupAnagram(strs []string) [][]string {
 	return results
 }
 
-func groupAnagramLinear(str []string) [][]string {
+func groupAnagramLinear(strs []string) [][]string {
 	scrollIndex := make(map[string]int)
 	anagrams := make([][]string, 0)
 	len := 0
-	for _, word := range str {
+	for _, word := range strs {
 		sorted := sortWord(word)
 		if index, ok := scrollIndex[sorted]; ok {
 			anagrams[index] = append(anagrams[index], word)
@@ -108,6 +109,30 @@ func groupAnagramLinear(str []string) [][]string {
 
 	}
 	return anagrams
+}
+
+func groupAnagramFastest(strs []string) [][]string {
+	anagrams := make(map[string][]string, 0)
+	for _, word := range strs {
+		occurances := make([]int, 26)
+		for _, char := range []rune(word) {
+			occurances[char-'a'] += 1
+		}
+		hash := fmt.Sprint(occurances)
+		if arr, ok := anagrams[hash]; ok {
+			anagrams[hash] = append(arr, word)
+
+		} else {
+			anagrams[hash] = []string{word}
+		}
+	}
+
+	result := make([][]string, 0)
+
+	for _, value := range anagrams {
+		result = append(result, value)
+	}
+	return result
 }
 
 func sortWord(word string) string {
